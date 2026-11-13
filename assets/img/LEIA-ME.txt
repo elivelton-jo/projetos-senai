@@ -1,0 +1,4 @@
+Fotos opcionais (o site funciona sem elas, usando o fundo em SVG/gradiente):
+  hero.jpg   -> faixa no topo das páginas internas (sugestão: 1920x600, foto escura de barbearia)
+  login.jpg  -> metade esquerda da tela de login   (sugestão: 1200x1600)
+Use fotos próprias ou de bancos gratuitos (Unsplash, Pexels). Não copie imagens do site da Guappo.
