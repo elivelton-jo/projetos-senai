@@ -1,0 +1,143 @@
+/* Guappo · camada visual. Carregada DEPOIS do <style> de cada página, então só refina. */
+
+:root {
+    --g-display: "Cormorant Garamond", "Times New Roman", serif;
+    --g-ease: cubic-bezier(.16, 1, .3, 1);
+    --g-surface: #14291e;
+}
+
+html { scroll-behavior: smooth; }
+:focus-visible { outline: 2px solid var(--guappo-gold); outline-offset: 3px; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}
+
+/* ---------- Páginas internas: nav + hero ---------- */
+body[data-page]:not([data-page="login"]) { padding: 0 0 56px; }
+body[data-page]:not([data-page="login"]) .container { width: calc(100% - 32px); max-width: 1100px; position: relative; }
+.g-hero + .container { margin-top: -64px; }
+
+.g-nav { position: sticky; top: 0; z-index: 50; background: rgba(7, 16, 11, .82); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border-bottom: 1px solid var(--guappo-border); }
+.g-nav__in { max-width: 1100px; margin: auto; padding: 10px 16px; display: flex; align-items: center; gap: 24px; }
+.g-brand { display: flex; align-items: center; gap: 10px; color: var(--guappo-gold); text-decoration: none; font-family: var(--g-display); font-size: 23px; font-weight: 600; white-space: nowrap; }
+.g-brand img { display: block; }
+.g-nav nav { display: flex; gap: 4px; margin-left: auto; overflow-x: auto; scrollbar-width: none; }
+.g-nav nav::-webkit-scrollbar { display: none; }
+.g-nav nav a { color: var(--guappo-muted); text-decoration: none; font-size: 13px; font-weight: 500; padding: 8px 14px; border-radius: 999px; white-space: nowrap; transition: color .2s, background .2s; }
+.g-nav nav a:hover { color: var(--guappo-text); }
+.g-nav nav a[aria-current="page"] { background: var(--guappo-gold); color: var(--guappo-bg); font-weight: 600; }
+.g-nav__exit { color: #ff8b82; text-decoration: none; font-size: 13px; font-weight: 500; padding: 8px 14px; border: 1px solid rgba(242, 139, 130, .3); border-radius: 999px; transition: background .2s; white-space: nowrap; }
+.g-nav__exit:hover { background: rgba(242, 139, 130, .14); }
+@media (max-width: 720px) { .g-brand span { display: none; } .g-nav__in { gap: 10px; } }
+
+.g-hero {
+    min-height: 220px; display: flex; align-items: flex-end; box-sizing: border-box; padding: 48px 24px 96px;
+    border-bottom: 1px solid var(--guappo-border);
+    /* Para usar uma foto: salve em assets/img/hero.jpg. Se o arquivo não existir, a camada é ignorada. */
+    background:
+        linear-gradient(180deg, rgba(7, 16, 11, .45) 0%, var(--guappo-bg) 100%),
+        url("../img/pattern.svg"),
+        url("../img/hero.jpg") center / cover no-repeat,
+        radial-gradient(120% 140% at 80% 0%, #24543d 0%, #0b1812 70%);
+}
+.g-hero__in { width: 100%; max-width: 1100px; margin: auto; }
+.g-hero__date { margin: 0 0 6px; font-size: 12px; color: var(--guappo-muted); text-transform: capitalize; }
+.g-hero__tag { margin: 0; font-family: var(--g-display); font-size: clamp(30px, 4.6vw, 48px); font-weight: 500; line-height: 1.08; color: var(--guappo-gold); max-width: 640px; }
+
+/* ---------- Tipografia de títulos ---------- */
+.container h2, .header-flex h2 { font-family: var(--g-display); font-size: 32px; font-weight: 600; letter-spacing: 0; }
+.container h3:not(.stat-card h3) { font-family: var(--g-display); font-size: 26px; font-weight: 600; letter-spacing: 0; }
+
+/* ---------- Dashboard: cards de estatística ao estilo dos planos ---------- */
+.stat-card {
+    position: relative; overflow: hidden; padding: 26px 26px 30px;
+    background: url("../img/logo-mark.svg") no-repeat right -16px bottom -20px / 120px, var(--guappo-card-bg);
+}
+.stat-card span { display: inline-block; padding: 4px 11px; border: 1px solid var(--guappo-border); border-radius: 999px; margin-bottom: 18px; }
+.stat-card h3 { font-family: var(--g-display); font-size: 46px !important; line-height: 1; font-weight: 600; letter-spacing: 0; }
+
+.menu-card { position: relative; padding: 28px 28px 28px 94px; min-height: 120px; }
+.g-icon { position: absolute; left: 26px; top: 28px; width: 50px; height: 50px; border-radius: 12px; display: grid; place-items: center; color: var(--guappo-gold); background: rgba(222, 213, 192, .08); border: 1px solid var(--guappo-border); transition: background .3s, color .3s; }
+.g-icon svg { width: 25px; height: 25px; }
+a.menu-card:hover .g-icon { background: var(--guappo-gold); color: var(--guappo-bg); }
+.menu-card h4 { font-family: var(--g-display); font-size: 23px; }
+
+/* ---------- Tabelas ---------- */
+.table-container { max-height: 560px; overflow: auto; }
+th { position: sticky; top: 0; z-index: 1; background: var(--g-surface); }
+tr[hidden] { display: none; }
+.g-person { display: inline-flex; align-items: center; gap: 12px; }
+.g-person::before {
+    content: attr(data-i); flex: none; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center;
+    background: linear-gradient(135deg, #2a5a43, #163222); border: 1px solid rgba(222, 213, 192, .3);
+    color: var(--guappo-gold); font-size: 11px; font-weight: 600; letter-spacing: .5px;
+}
+.g-toolbar { display: flex; flex-wrap: wrap; gap: 12px 16px; align-items: center; justify-content: space-between; margin-top: 15px; }
+.g-toolbar + .table-container { margin-top: 12px; }
+.g-search { position: relative; flex: 1 1 240px; max-width: 340px; }
+.g-search svg { position: absolute; left: 14px; top: 50%; width: 16px; height: 16px; transform: translateY(-50%); color: var(--guappo-muted); pointer-events: none; }
+.g-search input { padding: 11px 16px 11px 40px; font-size: 13px; }
+.g-count { font-size: 12px; color: var(--guappo-muted); }
+.g-empty { margin: 0; padding: 30px 20px; text-align: center; font-size: 13.5px; color: var(--guappo-muted); }
+
+.g-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.g-chips button { font: 500 12px "Sora", sans-serif; padding: 7px 14px; border-radius: 999px; border: 1px solid var(--guappo-border); background: transparent; color: var(--guappo-muted); cursor: pointer; transition: all .2s; }
+.g-chips button:hover { color: var(--guappo-text); border-color: rgba(222, 213, 192, .35); }
+.g-chips button[aria-pressed="true"] { background: var(--guappo-gold); border-color: var(--guappo-gold); color: var(--guappo-bg); }
+.g-chips--date { margin-top: 10px; }
+.badge-estado[data-estado="Cancelado"] { background: rgba(242, 139, 130, .12); color: #ff8b82; border-color: rgba(242, 139, 130, .3); }
+
+/* ---------- Mensagens e botões ---------- */
+.msg.is-out { opacity: 0; transform: translateY(-6px); transition: opacity .4s, transform .4s; }
+.btn-submit.is-loading, button[type="submit"].is-loading { opacity: .75; cursor: progress; pointer-events: none; }
+.is-loading::after { content: ""; display: inline-block; width: 12px; height: 12px; margin-left: 10px; vertical-align: -1px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: g-spin .7s linear infinite; }
+@keyframes g-spin { to { transform: rotate(360deg); } }
+
+/* ---------- Confirmação (modal) ---------- */
+.g-dialog { width: min(400px, calc(100% - 32px)); padding: 28px; border: 1px solid var(--guappo-border); border-radius: 16px; background: var(--g-surface); color: var(--guappo-text); font-family: "Sora", sans-serif; box-shadow: 0 30px 60px rgba(0, 0, 0, .6); }
+.g-dialog[open] { animation: g-pop .28s var(--g-ease); }
+.g-dialog::backdrop { background: rgba(3, 8, 5, .72); -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); }
+.g-dialog h4 { margin: 0 0 8px; font: 600 26px var(--g-display); color: var(--guappo-gold); }
+.g-dialog p { margin: 0 0 22px; font-size: 13.5px; line-height: 1.6; color: var(--guappo-muted); }
+.g-dialog p strong { color: var(--guappo-text); }
+.g-dialog form > div { display: flex; gap: 10px; justify-content: flex-end; }
+.g-dialog button { font: 600 12px "Sora", sans-serif; padding: 11px 18px; border-radius: 10px; cursor: pointer; }
+.g-btn-ghost { background: transparent; border: 1px solid var(--guappo-border); color: var(--guappo-text); }
+.g-btn-gold { background: var(--guappo-gold); border: 0; color: var(--guappo-bg); }
+@keyframes g-pop { from { opacity: 0; transform: translateY(10px) scale(.98); } to { opacity: 1; transform: none; } }
+
+/* ---------- Login em duas colunas ---------- */
+body[data-page="login"] {
+    background:
+        url("../img/pattern.svg"),
+        radial-gradient(90% 70% at 20% 0%, #1d4330 0%, #102319 70%);
+}
+body[data-page="login"] .login-card { position: relative; animation: g-pop .6s var(--g-ease) both; }
+.g-logo { display: block; margin: 0 auto 14px; }
+body[data-page="login"] .logo-area h1 { font-family: var(--g-display); font-size: 32px; letter-spacing: .5px; }
+.g-eye { position: absolute; right: 4px; bottom: 0; width: 42px; height: 43px; display: grid; place-items: center; background: none; border: 0; color: var(--guappo-muted); cursor: pointer; }
+.g-eye:hover, .g-eye[aria-pressed="true"] { color: var(--guappo-gold); }
+.g-eye svg { width: 18px; height: 18px; }
+body[data-page="login"] .form-group { position: relative; }
+body[data-page="login"] input[type="password"] { padding-right: 44px; }
+.hint .g-chips { justify-content: center; margin-top: 10px; }
+
+@media (min-width: 960px) {
+    body[data-page="login"]::before {
+        content: ""; position: fixed; inset: 0 50% 0 0; border-right: 1px solid var(--guappo-border);
+        /* Para usar uma foto: salve em assets/img/login.jpg. */
+        background:
+            linear-gradient(180deg, rgba(7, 16, 11, .2) 0%, rgba(7, 16, 11, .9) 100%),
+            url("../img/pattern.svg"),
+            url("../img/login.jpg") center / cover no-repeat,
+            radial-gradient(100% 80% at 30% 20%, #2a5d44 0%, #0b1812 75%);
+    }
+    body[data-page="login"]::after {
+        content: "Agenda, clientes e estilo em um só lugar."; position: fixed; left: 56px; bottom: 64px; max-width: 420px;
+        font-family: var(--g-display); font-size: 46px; font-weight: 500; line-height: 1.08; color: var(--guappo-gold); pointer-events: none;
+    }
+    body[data-page="login"] .login-container { width: 50%; max-width: none; margin-left: 50%; display: flex; justify-content: center; }
+    body[data-page="login"] .login-card { width: 100%; max-width: 420px; }
+}
